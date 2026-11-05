@@ -1,0 +1,126 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ph?ng h?p Diamond Rise</title><style>body{margin:0;background:#14110f;color:#f3ede4;font-family:Georgia,'Segoe UI',serif}.ui-app{max-width:1100px;margin:auto;padding:24px}.ui-eyebrow{color:#c9a46a;letter-spacing:.15em;text-transform:uppercase;font-size:12px}.ui-title{font-size:clamp(26px,4vw,40px);margin:6px 0}.ui-subtitle,.note,small{color:#a99f92}.ui-tabs{display:flex;gap:6px}.ui-tab,.ui-btn{background:#221d19;color:#f3ede4;border:1px solid #3a322b;border-radius:999px;padding:7px 14px;cursor:pointer;font:inherit;font-size:14px}.ui-tab.active,.ui-btn.primary{background:#c9a46a;color:#14110f;border-color:#c9a46a}.ui-card{background:#1c1814;border:1px solid #3a322b;border-radius:14px;padding:18px}.ui-grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}.ui-list{padding-left:18px;line-height:1.7}.ui-table{width:100%;border-collapse:collapse}.ui-table td,.ui-table th{border-bottom:1px solid #3a322b;padding:8px;text-align:left}.num{text-align:right!important}.ui-table-wrap{overflow:auto}.ui-badge{font-size:12px;padding:2px 8px;border-radius:999px;background:#3a322b;color:#e9c98f}.ui-toolbar{display:flex}:root{--ui-border:#3a322b;--ui-muted-fg:#a99f92}</style>
+<script>window.aicw={setState:s=>localStorage.setItem('ph',JSON.stringify(s)),getState:()=>JSON.parse(localStorage.getItem('ph')||'{}')}</script></head><body><div class="ui-app">
+<header class="ui-header">
+  <div class="ui-eyebrow">Cải tạo tường & chiếu sáng · 3 phương án</div>
+  <h1 class="ui-title">Phòng họp Diamond Rise</h1>
+  <p class="ui-subtitle">Kéo ngang trong khung 360° để xoay quanh phòng. Chuyển sang chế độ "Trước / Sau" để so với hiện trạng.</p>
+</header>
+
+<div class="ui-tabs pills" id="opts"></div>
+<div class="ui-tabs" id="modes">
+  <button class="ui-tab" data-m="360">🔄 Xoay 360°</button>
+  <button class="ui-tab" data-m="cmp">⇆ Trước / Sau</button>
+</div>
+
+<section id="v360">
+  <div class="stage" id="stage">
+    <div class="strip" id="strip"></div>
+    <div class="hint" id="hint">⟵ kéo để xoay ⟶</div>
+  </div>
+  <div class="ctrl">
+    <button class="ui-btn sm ghost" id="pl">◀</button>
+    <button class="ui-btn sm secondary" id="auto">▶ Tự xoay</button>
+    <button class="ui-btn sm ghost" id="pr">▶</button>
+    <span class="ui-badge info" id="face"></span>
+  </div>
+</section>
+
+<section id="vcmp" hidden>
+  <div class="ui-tabs" id="tabs"></div>
+  <div class="cmp" id="cmp">
+    <img id="after" alt="Đề xuất">
+    <div class="beforeWrap" id="bw"><img id="before" alt="Hiện trạng"></div>
+    <div class="handle" id="hd"><span>⇆</span></div>
+    <input type="range" min="0" max="100" value="50" id="rng" aria-label="So sánh">
+    <b class="tag l">Hiện trạng</b><b class="tag r">Đề xuất</b>
+  </div>
+</section>
+
+<div id="detail"></div>
+
+<div class="ui-card" style="margin-top:16px">
+  <h3>So nhanh 3 phương án</h3>
+  <div class="ui-table-wrap"><table class="ui-table">
+    <thead><tr><th>Tiêu chí</th><th>01 · Óc chó & đồng</th><th>02 · Sồi & ray đen</th><th>03 · Than tre trắng</th></tr></thead>
+    <tbody>
+      <tr><td>Cảm giác</td><td>Sang, ấm</td><td>Hiện đại, trẻ</td><td>Sáng bóng, sạch, rộng</td></tr>
+      <tr><td>Thi công</td><td>Lâu (gỗ, trần giật cấp)</td><td>Trung bình</td><td><b>Nhanh nhất</b>, ốp đè lên gạch cũ được</td></tr>
+      <tr><td>Chống ẩm, dễ lau</td><td>Trung bình</td><td>Trung bình</td><td><b>Tốt</b></td></tr>
+      <tr><td class="num">Dự toán</td><td class="num">≈ 54 – 93 tr</td><td class="num">≈ 38 – 66 tr</td><td class="num">≈ 32 – 55 tr</td></tr>
+    </tbody></table></div>
+  <p class="note">Giá tham khảo theo ước lượng phòng khoảng 4 × 5 m, cần đo thực tế.</p>
+</div>
+
+</div>
+<style>
+.stage{position:relative;width:100%;max-width:900px;margin:14px auto 0;height:min(70vh,560px);overflow:hidden;border-radius:14px;border:1px solid var(--ui-border);background:#111;cursor:grab;touch-action:pan-y;user-select:none}
+.stage:active{cursor:grabbing}
+.strip{position:absolute;top:0;left:0;height:100%;display:flex;will-change:transform}
+.strip img{height:100%;width:var(--pw);object-fit:cover;flex:none;pointer-events:none;-webkit-user-drag:none}
+.strip .lbl{position:absolute;top:10px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:3px 10px;border-radius:999px;pointer-events:none}
+.hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:4px 12px;border-radius:999px;transition:opacity .6s}
+.ctrl{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:10px;flex-wrap:wrap}
+.cmp{position:relative;width:100%;max-width:560px;margin:12px auto 0;aspect-ratio:2/3;overflow:hidden;border-radius:14px;border:1px solid var(--ui-border);user-select:none}
+.cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.beforeWrap{position:absolute;inset:0;overflow:hidden;width:50%}
+.beforeWrap img{width:auto;height:100%;max-width:none}
+.handle{position:absolute;top:0;bottom:0;left:50%;width:2px;background:#d8b77a;pointer-events:none}
+.handle span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#d8b77a;color:#111;border-radius:50%;width:34px;height:34px;display:grid;place-items:center;font-weight:700}
+#rng{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.tag{position:absolute;top:10px;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;pointer-events:none}
+.tag.l{left:10px}.tag.r{right:10px}
+.note{color:var(--ui-muted-fg);font-size:13px;text-align:center;margin-top:8px}
+.sw{display:flex;flex-wrap:wrap;gap:14px}
+.sw div{display:flex;flex-direction:column;align-items:center;font-size:13px;min-width:80px}
+.sw i{width:56px;height:56px;border-radius:10px;border:1px solid var(--ui-border);margin-bottom:6px}
+.sw small{color:var(--ui-muted-fg)}
+#tabs,#opts,#modes{margin-top:12px;flex-wrap:wrap}
+</style>
+<script>
+const P='images/';
+const B=['a24f6615-b8e5-4a7c-86de-f2cefd8f9a50','5a85b928-ff69-4f2a-87d1-e07fbcdae032','e6b12dd3-687f-49c7-828c-f32c09ee2219','ec8db4ea-fe7c-4129-9055-11b6d08547eb'];
+const N=['Bằng khen','Điều hòa','Cửa & logo','Trình chiếu'];
+const sw=a=>'<div class="ui-card" style="margin-top:16px"><h3>Bảng màu</h3><div class="sw">'+a.map(x=>`<div><i style="background:${x[0]}"></i>${x[1]}<small>${x[2]}</small></div>`).join('')+'</div></div>';
+const card=(w,l,k)=>`<div class="ui-grid cols-2" style="margin-top:20px"><div class="ui-card"><h3>Tường</h3><ul class="ui-list">${w.map(x=>'<li>'+x+'</li>').join('')}</ul></div><div class="ui-card"><h3>Đèn · ${k}</h3><ul class="ui-list">${l.map(x=>'<li>'+x+'</li>').join('')}</ul></div></div>`;
+const O=[
+{n:'01 · Óc chó & đồng',a:['1793867350675','1793867352595','1793867352591','1793867360771'],
+ h:card(['Bỏ gạch, sơn microcement greige, chân tường ốp than chì','Lam gỗ óc chó xen chỉ đồng xước','Tường logo: marble tối, logo đồng có đèn hắt','Cửa khung đen, kính sọc'],['Trần giật cấp, viền hắt LED','Đèn thả đen–đồng dài khoảng 1,8 m','Downlight chống chói, đèn rọi tranh','3 kênh dimmer'],'3000K')+sw([['#cdbfae','Greige','tường'],['#5a3b26','Óc chó','lam'],['#2b2b2d','Than chì','chân tường'],['#b08d57','Đồng','chỉ, logo']])},
+{n:'02 · Sồi & ray đen',a:['1793867491814','1793867492922','1793867561953','1793867486141'],
+ h:card(['Bỏ gạch, sơn trắng ấm mờ','Lam sồi sáng ở tường bằng khen, tường logo, tường TV','Logo chữ 3D đen mờ','Cửa khung nhôm đen mảnh'],['Ray nam châm đen, spotlight dời và xoay được','Đèn thả tuyến tính đen','Trần phẳng, thi công nhanh','2 kênh dimmer'],'4000K')+sw([['#f4f1ec','Trắng ấm','tường'],['#c9a27a','Sồi','lam'],['#1d1d1f','Đen mờ','ray, khung'],['#9a9a96','Xám đá','phụ']])},
+{n:'03 · Than tre trắng',a:['1793867705075','1793867706929','1793867707520','1793867694665'],
+ h:card(['<b>Tấm than tre trắng bóng</b> (dày khoảng 5–8 mm) ốp toàn bộ tường, ron mảnh, nẹp nhôm bạc','Tường điểm nhấn: <b>than tre vân đá marble sáng</b> ở tường bằng khen, logo, TV','Logo chữ inox bạc xước, có đèn hắt sau','Ốp thẳng lên tường gạch cũ, không cần đục nên ít bụi, xong trong 2–3 ngày','Chống ẩm, chống mốc, lau sạch dễ'],['Trần trắng, viền hắt LED','Downlight tròn âm trần mảnh','Đèn thả tuyến tính trắng–bạc trên bàn','Lưu ý: bề mặt bóng dễ phản chiếu đèn, nên chọn downlight chống chói UGR < 19'],'4000K')+sw([['#fafafa','Trắng bóng','tấm chính'],['#e9e6e1','Marble sáng','điểm nhấn'],['#c0c3c7','Bạc','nẹp, logo'],['#ffffff','Trắng','trần']])+`<div class="ui-card" style="margin-top:16px"><h3>Dự toán PA 03 <span class="ui-badge warn">tham khảo</span></h3><div class="ui-table-wrap"><table class="ui-table"><thead><tr><th>Hạng mục</th><th class="num">Triệu đ</th></tr></thead><tbody><tr><td>Tấm than tre trắng và vân đá (~55 m² tường)</td><td class="num">14 – 24</td></tr><tr><td>Nẹp nhôm, keo, nhân công</td><td class="num">4 – 7</td></tr><tr><td>Hắt LED, downlight, đèn thả</td><td class="num">7 – 12</td></tr><tr><td>Logo inox hắt sáng</td><td class="num">3 – 6</td></tr><tr><td>Hộp che ống và dây, vệ sinh</td><td class="num">4 – 6</td></tr><tr><td><b>Tổng</b></td><td class="num"><b>≈ 32 – 55</b></td></tr></tbody></table></div></div>`}];
+let o=2,g=0,mode='360',pos=0,auto=false,pw=300;
+const $=id=>document.getElementById(id);
+const stage=$('stage'),strip=$('strip');
+// pos = góc nhìn tính theo số panel (0..4, vòng lặp)
+function buildPano(){
+  pw=Math.round(stage.clientHeight/1.5);
+  strip.style.setProperty('--pw',pw+'px');strip.innerHTML='';
+  for(let r=0;r<3;r++)O[o].a.forEach(a=>{const im=document.createElement('img');im.src=P+'gpt-image-'+a+'.png';im.draggable=false;strip.appendChild(im)});
+  draw();
+}
+function draw(){
+  pos=((pos%4)+4)%4;
+  const x=-(4+pos)*pw+stage.clientWidth/2-pw/2;
+  strip.style.transform=`translateX(${x}px)`;
+  $('face').textContent='Đang nhìn: Góc '+(Math.round(pos)%4+1)+' · '+N[Math.round(pos)%4];
+}
+let drag=null;
+stage.addEventListener('pointerdown',e=>{drag={x:e.clientX,p:pos};auto=false;$('auto').textContent='▶ Tự xoay';try{stage.setPointerCapture(e.pointerId)}catch(_){}$('hint').style.opacity=0});
+stage.addEventListener('pointermove',e=>{if(!drag)return;pos=drag.p-(e.clientX-drag.x)/pw;draw()});
+const end=()=>drag=null;stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);
+function snap(d){let t=Math.round(pos)+d;const s=pos,t0=performance.now();(function f(n){const p=Math.min(1,(n-t0)/400);pos=s+(t-s)*(1-Math.pow(1-p,3));draw();if(p<1)requestAnimationFrame(f)})(t0)}
+$('pl').onclick=()=>snap(-1);$('pr').onclick=()=>snap(1);
+$('auto').onclick=()=>{auto=!auto;$('auto').textContent=auto?'⏸ Dừng':'▶ Tự xoay'};
+(function loop(){if(auto&&mode==='360'){pos+=0.004;draw()}requestAnimationFrame(loop)})();
+const rng=$('rng');rng.oninput=()=>{$('bw').style.width=rng.value+'%';$('hd').style.left=rng.value+'%'};
+function cmp(){[...$('tabs').children].forEach((b,k)=>b.classList.toggle('active',k===g));$('after').src=P+'gpt-image-'+O[o].a[g]+'.png';$('before').src=P+''+B[g]+'.png';$('before').style.width=$('cmp').clientWidth+'px'}
+function render(){[...$('opts').children].forEach((b,k)=>b.classList.toggle('active',k===o));[...$('modes').children].forEach(b=>b.classList.toggle('active',b.dataset.m===mode));
+ $('v360').hidden=mode!=='360';$('vcmp').hidden=mode!=='cmp';$('detail').innerHTML=O[o].h;
+ if(mode==='360')buildPano();else cmp();aicw.setState&&aicw.setState({o,mode})}
+O.forEach((v,k)=>{const b=document.createElement('button');b.className='ui-tab';b.textContent='PA '+v.n;b.onclick=()=>{o=k;render()};$('opts').appendChild(b)});
+N.forEach((n,k)=>{const b=document.createElement('button');b.className='ui-tab';b.textContent='Góc '+(k+1)+' · '+n;b.onclick=()=>{g=k;cmp()};$('tabs').appendChild(b)});
+[...$('modes').children].forEach(b=>b.onclick=()=>{mode=b.dataset.m;render()});
+window.addEventListener('resize',()=>mode==='360'?buildPano():cmp());
+const s=(aicw.getState&&aicw.getState())||{};o=s.o??2;mode=s.mode||'360';render();
+</script></body></html>
