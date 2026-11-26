@@ -3,13 +3,14 @@
 <header class="ui-header">
   <div class="ui-eyebrow">Cải tạo tường & chiếu sáng · 4 phương án</div>
   <h1 class="ui-title">Phòng họp Diamond Rise</h1>
-  <p class="ui-subtitle">Kéo ngang trong khung 360° để xoay quanh phòng. Chuyển sang chế độ "Trước / Sau" để so với hiện trạng.</p>
+  <p class="ui-subtitle">Kéo ngang hoặc dùng các nút mũi tên để đổi góc nhìn. Chọn "Trước / Sau" để so với ảnh hiện trạng.</p>
 </header>
 
 <div class="ui-tabs pills" id="opts"></div>
 <div class="ui-tabs" id="modes">
   <button class="ui-tab" data-m="360">🔄 Xoay 360°</button>
   <button class="ui-tab" data-m="cmp">⇆ Trước / Sau</button>
+  <button class="ui-tab" data-m="plan" hidden>Mặt bằng</button>
 </div>
 
 <section id="v360">
@@ -36,6 +37,13 @@
   </div>
 </section>
 
+<section id="vplan" hidden aria-label="Mặt bằng PA 04">
+  <a id="planLink" target="_blank" rel="noopener">
+    <img id="planImage" width="1440" height="1120" alt="Mặt bằng 4 × 5 m với bàn họp ở giữa; bốn mũi tên chỉ các góc nhìn về tường logo, máy lạnh, cửa và bảng viết.">
+  </a>
+  <div class="ui-tabs" id="planAngles"></div>
+</section>
+
 <div id="detail"></div>
 
 <div class="ui-card" style="margin-top:16px">
@@ -57,6 +65,15 @@
 .stage:active{cursor:grabbing}
 .strip{position:absolute;top:0;left:0;height:100%;display:flex;will-change:transform}
 .strip img{height:100%;width:var(--pw);object-fit:cover;flex:none;pointer-events:none;-webkit-user-drag:none}
+.strip.frames{inset:0;width:100%;display:block;will-change:auto}
+.strip.frames img{position:absolute;inset:0;width:100%;object-fit:contain;opacity:0;transition:opacity .26s ease}
+.strip.frames img.active{opacity:1}
+.stage.model{height:min(76vh,680px)}
+#vplan{margin:16px auto 0;max-width:900px}
+#vplan img{display:block;width:100%;height:auto;border-radius:14px}
+#planAngles{margin-top:12px;flex-wrap:wrap}
+.cmp.model{aspect-ratio:3/4}
+@media(prefers-reduced-motion:reduce){.strip.frames img{transition:none}}
 .strip .lbl{position:absolute;top:10px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:3px 10px;border-radius:999px;pointer-events:none}
 .hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:4px 12px;border-radius:999px;transition:opacity .6s}
 .ctrl{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:10px;flex-wrap:wrap}
@@ -90,47 +107,110 @@ const O=[
  h:card(['Bỏ gạch, sơn trắng ấm mờ','Lam sồi sáng ở tường bằng khen, tường logo, tường TV','Logo chữ 3D đen mờ','Cửa khung nhôm đen mảnh'],['Ray nam châm đen, spotlight dời và xoay được','Đèn thả tuyến tính đen','Trần phẳng, thi công nhanh','2 kênh dimmer'],'4000K')+sw([['#f4f1ec','Trắng ấm','tường'],['#c9a27a','Sồi','lam'],['#1d1d1f','Đen mờ','ray, khung'],['#9a9a96','Xám đá','phụ']])},
 {n:'03 · Than tre trắng',a:originalRenders(['1793867705075','1793867706929','1793867707520','1793867694665']),
  h:card(['<b>Tấm than tre trắng bóng</b> (dày khoảng 5–8 mm) ốp toàn bộ tường, ron mảnh, nẹp nhôm bạc','Tường điểm nhấn: <b>than tre vân đá marble sáng</b> ở tường bằng khen, logo, TV','Logo chữ inox bạc xước, có đèn hắt sau','Ốp thẳng lên tường gạch cũ, không cần đục nên ít bụi, xong trong 2–3 ngày','Chống ẩm, chống mốc, lau sạch dễ'],['Trần trắng, viền hắt LED','Downlight tròn âm trần mảnh','Đèn thả tuyến tính trắng–bạc trên bàn','Lưu ý: bề mặt bóng dễ phản chiếu đèn, nên chọn downlight chống chói UGR < 19'],'4000K')+sw([['#fafafa','Trắng bóng','tấm chính'],['#e9e6e1','Marble sáng','điểm nhấn'],['#c0c3c7','Bạc','nẹp, logo'],['#ffffff','Trắng','trần']])+`<div class="ui-card" style="margin-top:16px"><h3>Dự toán PA 03 <span class="ui-badge warn">tham khảo</span></h3><div class="ui-table-wrap"><table class="ui-table"><thead><tr><th>Hạng mục</th><th class="num">Triệu đ</th></tr></thead><tbody><tr><td>Tấm than tre trắng và vân đá (~55 m² tường)</td><td class="num">14 – 24</td></tr><tr><td>Nẹp nhôm, keo, nhân công</td><td class="num">4 – 7</td></tr><tr><td>Hắt LED, downlight, đèn thả</td><td class="num">7 – 12</td></tr><tr><td>Logo inox hắt sáng</td><td class="num">3 – 6</td></tr><tr><td>Hộp che ống và dây, vệ sinh</td><td class="num">4 – 6</td></tr><tr><td><b>Tổng</b></td><td class="num"><b>≈ 32 – 55</b></td></tr></tbody></table></div></div>`},
-{n:'04 · Marble kem & gỗ ấm',a:['pa04-goc-1-v3.webp','pa04-goc-2-v4.webp','pa04-goc-3-v4.webp','pa04-goc-4-v3.webp'],angles:{2:'Cửa & hốc trưng bày',3:'Bảng viết'},
- h:card(['Đặt logo Diamond Rise và dòng chữ “Accounting • Legal • Consulting” trên mảng marble kem chính. Chuyển bằng khen vào hai kệ gỗ có đèn hắt','Thay mảng đá dưới máy lạnh bằng lam gỗ óc chó chạy dọc. Giữ hai kệ hắt sáng và tủ thấp chạy liền chân tường','Giữ bàn, ghế, máy lạnh và cửa kính mờ hiện trạng. Lót thảm tấm xám nâu toàn bộ nền phòng, từ dưới bàn ra lối đi','Đặt một bảng viết ngang ở giữa vách gỗ, phía đối diện máy lạnh. Ốp gỗ óc chó liền mạch quanh cửa, giữ các hốc trưng bày hắt sáng và nẹp màu đồng champagne'],['Đèn thả LED bo góc, thân màu đồng champagne, đặt dọc theo bàn họp','LED hắt ấm cho tường vân đá và kệ. Đèn hắt có công tắc riêng để điều chỉnh độ sáng khi họp'],'3500K chính, 3000K hắt')+sw([['#e9dfd3','Marble kem','mảng nhấn'],['#77543e','Nâu óc chó','tủ, vách'],['#b69a70','Đồng champagne','nẹp, đèn'],['#17283b','Xanh navy','logo'],['#8c8377','Xám nâu','thảm']])+`<div class="ui-card" style="margin-top:16px"><h3>Hạng mục cần báo giá</h3><ul class="ui-list"><li>Ốp vân đá, vách gỗ, tủ thấp, kệ và nẹp</li><li>Đèn thả, LED hắt và đi dây điện</li><li>Chữ nổi Diamond Rise và bảng viết</li><li>Thảm tấm, nẹp chuyển tiếp và công lắp</li></ul><p class="note">Phối cảnh minh họa dựng theo ảnh hiện trạng. Cần đo lối đi và chiều cao trần trước khi chốt kích thước tủ, kệ và đèn.</p></div>`}];
-let o=2,g=0,mode='360',pos=0,auto=false,pw=300;
+{n:'04 · Marble kem & gỗ ấm',a:['pa04-model-goc-1.webp','pa04-model-goc-2.webp','pa04-model-goc-3.webp','pa04-model-goc-4.webp'],plan:'pa04-mat-bang.webp',angles:{0:'Logo & bằng khen',1:'Điều hòa & lam gỗ',2:'Cửa & hốc trưng bày',3:'Bảng viết'},
+ h:card(['Đặt logo Diamond Rise và dòng chữ “Accounting • Legal • Consulting” trên mảng marble kem chính. Chuyển bằng khen vào hai kệ gỗ có đèn hắt','Thay mảng đá dưới máy lạnh bằng lam gỗ óc chó chạy dọc. Giữ hai kệ hắt sáng và tủ thấp chạy liền chân tường','Giữ bàn, ghế, máy lạnh và cửa kính mờ hiện trạng. Lót thảm tấm xám nâu toàn bộ nền phòng, từ dưới bàn ra lối đi','Đặt một bảng viết ngang ở giữa vách gỗ, phía đối diện máy lạnh. Ốp gỗ óc chó liền mạch quanh cửa, giữ các hốc trưng bày hắt sáng và nẹp màu đồng champagne'],['Đèn thả LED bo góc, thân màu đồng champagne, đặt dọc theo bàn họp','LED hắt ấm cho tường vân đá và kệ. Đèn hắt có công tắc riêng để điều chỉnh độ sáng khi họp'],'3500K chính, 3000K hắt')+sw([['#e9dfd3','Marble kem','mảng nhấn'],['#77543e','Nâu óc chó','tủ, vách'],['#b69a70','Đồng champagne','nẹp, đèn'],['#17283b','Xanh navy','logo'],['#8c8377','Xám nâu','thảm']])+`<div class="ui-card" style="margin-top:16px"><h3>Hạng mục cần báo giá</h3><ul class="ui-list"><li>Ốp vân đá, vách gỗ, tủ thấp, kệ và nẹp</li><li>Đèn thả, LED hắt và đi dây điện</li><li>Chữ nổi Diamond Rise và bảng viết</li><li>Thảm tấm, nẹp chuyển tiếp và công lắp</li></ul><p class="note">Bốn phối cảnh dùng cùng mặt bằng và mô hình 3D. Kích thước 4 × 5 m và cao 2,85 m là giả định theo ảnh hiện trạng.</p></div>`}];
+let o=2,g=0,mode='360',pos=0,auto=false,pw=300,lastStep=0;
 const $=id=>document.getElementById(id);
 const stage=$('stage'),strip=$('strip');
 const angleLabel=k=>'Góc '+(k+1)+' · '+(O[o].angles?.[k]??N[k]);
 // pos = góc nhìn tính theo số panel (0..4, vòng lặp)
 function buildPano(){
+  const framed=Boolean(O[o].plan);
   pw=Math.round(stage.clientHeight/1.5);
+  stage.classList.toggle('model',framed);
+  strip.classList.toggle('frames',framed);
   strip.style.setProperty('--pw',pw+'px');strip.innerHTML='';
-  for(let r=0;r<3;r++)O[o].a.forEach(a=>{const im=document.createElement('img');im.src=P+a;im.draggable=false;strip.appendChild(im)});
+  for(let r=0;r<(framed?1:3);r++)O[o].a.forEach(a=>{const im=document.createElement('img');im.src=P+a;im.draggable=false;im.alt='';strip.appendChild(im)});
+  lastStep=performance.now();
   draw();
 }
 function draw(){
   pos=((pos%4)+4)%4;
-  const x=-(4+pos)*pw+stage.clientWidth/2-pw/2;
-  strip.style.transform=`translateX(${x}px)`;
-  $('face').textContent='Đang nhìn: '+angleLabel(Math.round(pos)%4);
+  const angle=Math.round(pos)%4;
+  if(O[o].plan){
+    strip.style.transform='';
+    [...strip.children].forEach((im,k)=>{
+      im.classList.toggle('active',k===angle);
+      im.alt=k===angle?angleLabel(k):'';
+    });
+  }else{
+    const x=-(4+pos)*pw+stage.clientWidth/2-pw/2;
+    strip.style.transform=`translateX(${x}px)`;
+  }
+  $('face').textContent='Đang nhìn: '+angleLabel(angle);
 }
 function setAuto(enabled){
   auto=enabled;
+  lastStep=performance.now();
   $('auto').textContent=auto?'⏸ Dừng':'▶ Tự xoay';
 }
 let drag=null;
 stage.addEventListener('pointerdown',e=>{drag={x:e.clientX,p:pos};setAuto(false);try{stage.setPointerCapture(e.pointerId)}catch(_){}$('hint').style.opacity=0});
-stage.addEventListener('pointermove',e=>{if(!drag)return;pos=drag.p-(e.clientX-drag.x)/pw;draw()});
-const end=()=>drag=null;stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);
-function snap(d){let t=Math.round(pos)+d;const s=pos,t0=performance.now();(function f(n){const p=Math.min(1,(n-t0)/400);pos=s+(t-s)*(1-Math.pow(1-p,3));draw();if(p<1)requestAnimationFrame(f)})(t0)}
+stage.addEventListener('pointermove',e=>{if(!drag||O[o].plan)return;pos=drag.p-(e.clientX-drag.x)/pw;draw()});
+stage.addEventListener('pointerup',e=>{
+  if(drag&&O[o].plan&&Math.abs(e.clientX-drag.x)>=35)snap(Math.sign(drag.x-e.clientX));
+  drag=null;
+});
+stage.addEventListener('pointercancel',()=>drag=null);
+function snap(d){
+  const target=Math.round(pos)+d;
+  if(O[o].plan){pos=target;draw();return}
+  const start=pos,t0=performance.now(),option=o;
+  (function animate(now){
+    if(option!==o||mode!=='360')return;
+    const p=Math.min(1,(now-t0)/400);
+    pos=start+(target-start)*(1-Math.pow(1-p,3));draw();
+    if(p<1)requestAnimationFrame(animate);
+  })(t0);
+}
 $('pl').onclick=()=>{setAuto(false);snap(-1)};$('pr').onclick=()=>{setAuto(false);snap(1)};
 $('auto').onclick=()=>setAuto(!auto);
-(function loop(){if(auto&&mode==='360'){pos+=0.004;draw()}requestAnimationFrame(loop)})();
+function loop(now){
+  if(auto&&mode==='360'){
+    if(O[o].plan){
+      if(now-lastStep>=3900){lastStep=now;snap(1)}
+    }else{pos+=0.004;draw()}
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
 const rng=$('rng');rng.oninput=()=>{$('bw').style.width=rng.value+'%';$('hd').style.left=rng.value+'%'};
 function cmp(){[...$('tabs').children].forEach((b,k)=>b.classList.toggle('active',k===g));$('after').src=P+O[o].a[g];$('before').src=P+''+B[g]+'.png';$('before').style.width=$('cmp').clientWidth+'px'}
-function render(){[...$('opts').children].forEach((b,k)=>b.classList.toggle('active',k===o));[...$('modes').children].forEach(b=>b.classList.toggle('active',b.dataset.m===mode));
- [...$('tabs').children].forEach((b,k)=>b.textContent=angleLabel(k));
- $('v360').hidden=mode!=='360';$('vcmp').hidden=mode!=='cmp';$('detail').innerHTML=O[o].h;
- if(mode==='360')buildPano();else cmp();aicw.setState&&aicw.setState({o,mode})}
+function render(){
+  const option=O[o],hasPlan=Boolean(option.plan);
+  if(mode==='plan'&&!hasPlan)mode='360';
+  [...$('opts').children].forEach((b,k)=>b.classList.toggle('active',k===o));
+  [...$('modes').children].forEach(b=>{
+    b.classList.toggle('active',b.dataset.m===mode);
+    if(b.dataset.m==='plan')b.hidden=!hasPlan;
+    if(b.dataset.m==='360')b.textContent=hasPlan?'Xoay 4 góc':'🔄 Xoay 360°';
+  });
+  [...$('tabs').children].forEach((b,k)=>b.textContent=angleLabel(k));
+  $('v360').hidden=mode!=='360';$('vcmp').hidden=mode!=='cmp';$('vplan').hidden=mode!=='plan';
+  $('hint').textContent=hasPlan?'Vuốt để đổi góc':'⟵ kéo để xoay ⟶';
+  $('cmp').classList.toggle('model',hasPlan);
+  $('detail').innerHTML=option.h;
+  if(mode==='360')buildPano();
+  else if(mode==='cmp')cmp();
+  else{
+    $('planImage').src=P+option.plan;
+    $('planLink').href=P+option.plan;
+    [...$('planAngles').children].forEach((b,k)=>b.textContent=angleLabel(k));
+  }
+  aicw.setState&&aicw.setState({o,mode});
+}
 O.forEach((v,k)=>{const b=document.createElement('button');b.className='ui-tab';b.textContent='PA '+v.n;b.onclick=()=>{o=k;render()};$('opts').appendChild(b)});
 N.forEach((_,k)=>{const b=document.createElement('button');b.className='ui-tab';b.onclick=()=>{g=k;cmp()};$('tabs').appendChild(b)});
+N.forEach((_,k)=>{
+  const b=document.createElement('button');b.className='ui-tab';
+  b.onclick=()=>{pos=k;mode='360';setAuto(false);render()};
+  $('planAngles').appendChild(b);
+});
 [...$('modes').children].forEach(b=>b.onclick=()=>{mode=b.dataset.m;render()});
-window.addEventListener('resize',()=>mode==='360'?buildPano():cmp());
+window.addEventListener('resize',()=>{
+  if(mode==='360'&&!O[o].plan)buildPano();
+  else if(mode==='cmp')cmp();
+});
 const s=(aicw.getState&&aicw.getState())||{};o=s.o??2;mode=s.mode||'360';render();
 setAuto(!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 </script></body></html>
