@@ -68,10 +68,6 @@
 .stage:active{cursor:grabbing}
 .strip{position:absolute;top:0;left:0;height:100%;display:flex;will-change:transform}
 .strip img{height:100%;width:var(--pw);object-fit:cover;flex:none;pointer-events:none;-webkit-user-drag:none}
-.strip.frames{inset:0;width:100%;display:block;will-change:auto}
-.strip.frames img{position:absolute;inset:0;width:100%;object-fit:contain;opacity:0;transition:opacity .26s ease}
-.strip.frames img.active{opacity:1}
-.stage.model{height:min(76vh,680px)}
 #vplan{margin:16px auto 0}
 .wall-sheet{overflow-x:auto;border-radius:14px;border:1px solid var(--ui-border);background:#f4efe6}
 #vplan img{display:block;width:100%;min-width:1120px;height:auto}
@@ -81,7 +77,6 @@
 .angle-details dt{color:#e7c78f;font-weight:bold;margin-top:12px}
 .angle-details dd{margin:3px 0 0;line-height:1.5}
 .cmp.model{aspect-ratio:3/4}
-@media(prefers-reduced-motion:reduce){.strip.frames img{transition:none}}
 .strip .lbl{position:absolute;top:10px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:3px 10px;border-radius:999px;pointer-events:none}
 .hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.55);color:#fff;font-size:12px;padding:4px 12px;border-radius:999px;transition:opacity .6s}
 .ctrl{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:10px;flex-wrap:wrap}
@@ -122,53 +117,37 @@ const O=[
 <dt>Góc 3 · Cửa & hốc trưng bày</dt><dd>Ba hốc nhỏ có đèn hắt cạnh cửa. Vách gỗ phía trái nối với bảng viết. Mép phải ốp gỗ trơn nối sang tường máy lạnh.</dd>
 <dt>Góc 2 · Máy lạnh & lam gỗ</dt><dd>Giữ máy lạnh ở cao độ hiện trạng. Lam gỗ dọc nằm giữa hai hốc, tủ thấp chạy nối chân vách về phía tường logo.</dd>
 </dl></div>`+card(['Đặt logo Diamond Rise và dòng chữ “Accounting • Legal • Consulting” trên mảng marble kem chính. Chuyển bằng khen vào hai kệ gỗ có đèn hắt','Thay mảng đá dưới máy lạnh bằng lam gỗ óc chó chạy dọc. Giữ hai kệ hắt sáng và tủ thấp chạy liền chân tường','Giữ bàn, ghế, máy lạnh và cửa kính mờ hiện trạng. Lót thảm tấm xám nâu toàn bộ nền phòng, từ dưới bàn ra lối đi','Đặt một bảng viết ngang ở giữa vách gỗ, phía đối diện máy lạnh. Ốp gỗ óc chó liền mạch quanh cửa, giữ các hốc trưng bày hắt sáng và nẹp màu đồng champagne'],['Đèn thả LED bo góc, thân màu đồng champagne, đặt dọc theo bàn họp','LED hắt ấm cho tường vân đá và kệ. Đèn hắt có công tắc riêng để điều chỉnh độ sáng khi họp'],'3500K chính, 3000K hắt')+sw([['#e9dfd3','Marble kem','mảng nhấn'],['#77543e','Nâu óc chó','tủ, vách'],['#b69a70','Đồng champagne','nẹp, đèn'],['#17283b','Xanh navy','logo'],['#8c8377','Xám nâu','thảm']])+`<div class="ui-card" style="margin-top:16px"><h3>Hạng mục cần báo giá</h3><ul class="ui-list"><li>Ốp vân đá, vách gỗ, tủ thấp, kệ và nẹp</li><li>Đèn thả, LED hắt và đi dây điện</li><li>Chữ nổi Diamond Rise và bảng viết</li><li>Thảm tấm, nẹp chuyển tiếp và công lắp</li></ul><p class="note">Phối cảnh chỉnh từ các ảnh phòng thật. Kích thước và vị trí chi tiết cần đo lại trước khi thi công.</p></div>`}];
-let o=2,g=0,mode='360',pos=0,auto=false,pw=300,lastStep=0;
+let o=2,g=0,mode='360',pos=0,auto=false,pw=300;
 const $=id=>document.getElementById(id);
 const stage=$('stage'),strip=$('strip');
 const angleLabel=k=>'Góc '+(k+1)+' · '+(O[o].angles?.[k]??N[k]);
 // pos = góc nhìn tính theo số panel (0..4, vòng lặp)
 function buildPano(){
-  const framed=Boolean(O[o].plan);
   pw=Math.round(stage.clientHeight/1.5);
-  stage.classList.toggle('model',framed);
-  strip.classList.toggle('frames',framed);
   strip.style.setProperty('--pw',pw+'px');strip.innerHTML='';
-  const option=O[o],paths=framed?option.walk.map(angle=>option.a[angle]):option.a;
-  for(let r=0;r<(framed?1:3);r++)paths.forEach(a=>{const im=document.createElement('img');im.src=P+a;im.draggable=false;im.alt='';strip.appendChild(im)});
-  lastStep=performance.now();
+  const option=O[o],paths=option.walk?option.walk.map(angle=>option.a[angle]):option.a;
+  for(let r=0;r<3;r++)paths.forEach(a=>{const im=document.createElement('img');im.src=P+a;im.draggable=false;im.alt='';strip.appendChild(im)});
   draw();
 }
 function draw(){
   pos=((pos%4)+4)%4;
   const angle=Math.round(pos)%4;
-  if(O[o].plan){
-    strip.style.transform='';
-    [...strip.children].forEach((im,k)=>{
-      im.classList.toggle('active',k===angle);
-      im.alt=k===angle?angleLabel(O[o].walk[k]):'';
-    });
-  }else{
-    const x=-(4+pos)*pw+stage.clientWidth/2-pw/2;
-    strip.style.transform=`translateX(${x}px)`;
-  }
+  const x=-(4+pos)*pw+stage.clientWidth/2-pw/2;
+  strip.style.transform=`translateX(${x}px)`;
   $('face').textContent='Đang nhìn: '+angleLabel(O[o].walk?.[angle]??angle);
 }
 function setAuto(enabled){
   auto=enabled;
-  lastStep=performance.now();
   $('auto').textContent=auto?'⏸ Dừng':'▶ Tự xoay';
 }
 let drag=null;
 stage.addEventListener('pointerdown',e=>{drag={x:e.clientX,p:pos};setAuto(false);try{stage.setPointerCapture(e.pointerId)}catch(_){}$('hint').style.opacity=0});
-stage.addEventListener('pointermove',e=>{if(!drag||O[o].plan)return;pos=drag.p-(e.clientX-drag.x)/pw;draw()});
-stage.addEventListener('pointerup',e=>{
-  if(drag&&O[o].plan&&Math.abs(e.clientX-drag.x)>=35)snap(Math.sign(drag.x-e.clientX));
-  drag=null;
-});
-stage.addEventListener('pointercancel',()=>drag=null);
+stage.addEventListener('pointermove',e=>{if(!drag)return;pos=drag.p-(e.clientX-drag.x)/pw;draw()});
+const end=()=>drag=null;
+stage.addEventListener('pointerup',end);
+stage.addEventListener('pointercancel',end);
 function snap(d){
   const target=Math.round(pos)+d;
-  if(O[o].plan){pos=target;draw();return}
   const start=pos,t0=performance.now(),option=o;
   (function animate(now){
     if(option!==o||mode!=='360')return;
@@ -179,12 +158,8 @@ function snap(d){
 }
 $('pl').onclick=()=>{setAuto(false);snap(-1)};$('pr').onclick=()=>{setAuto(false);snap(1)};
 $('auto').onclick=()=>setAuto(!auto);
-function loop(now){
-  if(auto&&mode==='360'){
-    if(O[o].plan){
-      if(now-lastStep>=3900){lastStep=now;snap(1)}
-    }else{pos+=0.004;draw()}
-  }
+function loop(){
+  if(auto&&mode==='360'){pos+=0.004;draw()}
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
@@ -197,11 +172,9 @@ function render(){
   [...$('modes').children].forEach(b=>{
     b.classList.toggle('active',b.dataset.m===mode);
     if(b.dataset.m==='walls')b.hidden=!hasPlan;
-    if(b.dataset.m==='360')b.textContent=hasPlan?'Xoay 4 góc':'🔄 Xoay 360°';
   });
   [...$('tabs').children].forEach((b,k)=>b.textContent=angleLabel(k));
   $('v360').hidden=mode!=='360';$('vcmp').hidden=mode!=='cmp';$('vplan').hidden=mode!=='walls';
-  $('hint').textContent=hasPlan?'Vuốt để đổi góc':'⟵ kéo để xoay ⟶';
   $('cmp').classList.toggle('model',hasPlan);
   $('detail').innerHTML=option.h;
   if(mode==='360')buildPano();
@@ -217,12 +190,12 @@ O.forEach((v,k)=>{const b=document.createElement('button');b.className='ui-tab';
 N.forEach((_,k)=>{const b=document.createElement('button');b.className='ui-tab';b.onclick=()=>{g=k;cmp()};$('tabs').appendChild(b)});
 N.forEach((_,k)=>{
   const b=document.createElement('button');b.className='ui-tab';
-  b.onclick=()=>{pos=k;mode='360';setAuto(false);render()};
+  b.onclick=()=>{pos=k;mode='360';render()};
   $('planAngles').appendChild(b);
 });
 [...$('modes').children].forEach(b=>b.onclick=()=>{mode=b.dataset.m;render()});
 window.addEventListener('resize',()=>{
-  if(mode==='360'&&!O[o].plan)buildPano();
+  if(mode==='360')buildPano();
   else if(mode==='cmp')cmp();
 });
 const s=(aicw.getState&&aicw.getState())||{};o=s.o??2;mode=s.mode||'360';render();
