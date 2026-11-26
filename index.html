@@ -108,13 +108,17 @@ function draw(){
   strip.style.transform=`translateX(${x}px)`;
   $('face').textContent='Đang nhìn: Góc '+(Math.round(pos)%4+1)+' · '+N[Math.round(pos)%4];
 }
+function setAuto(enabled){
+  auto=enabled;
+  $('auto').textContent=auto?'⏸ Dừng':'▶ Tự xoay';
+}
 let drag=null;
-stage.addEventListener('pointerdown',e=>{drag={x:e.clientX,p:pos};auto=false;$('auto').textContent='▶ Tự xoay';try{stage.setPointerCapture(e.pointerId)}catch(_){}$('hint').style.opacity=0});
+stage.addEventListener('pointerdown',e=>{drag={x:e.clientX,p:pos};setAuto(false);try{stage.setPointerCapture(e.pointerId)}catch(_){}$('hint').style.opacity=0});
 stage.addEventListener('pointermove',e=>{if(!drag)return;pos=drag.p-(e.clientX-drag.x)/pw;draw()});
 const end=()=>drag=null;stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);
 function snap(d){let t=Math.round(pos)+d;const s=pos,t0=performance.now();(function f(n){const p=Math.min(1,(n-t0)/400);pos=s+(t-s)*(1-Math.pow(1-p,3));draw();if(p<1)requestAnimationFrame(f)})(t0)}
-$('pl').onclick=()=>snap(-1);$('pr').onclick=()=>snap(1);
-$('auto').onclick=()=>{auto=!auto;$('auto').textContent=auto?'⏸ Dừng':'▶ Tự xoay'};
+$('pl').onclick=()=>{setAuto(false);snap(-1)};$('pr').onclick=()=>{setAuto(false);snap(1)};
+$('auto').onclick=()=>setAuto(!auto);
 (function loop(){if(auto&&mode==='360'){pos+=0.004;draw()}requestAnimationFrame(loop)})();
 const rng=$('rng');rng.oninput=()=>{$('bw').style.width=rng.value+'%';$('hd').style.left=rng.value+'%'};
 function cmp(){[...$('tabs').children].forEach((b,k)=>b.classList.toggle('active',k===g));$('after').src=P+O[o].a[g];$('before').src=P+''+B[g]+'.png';$('before').style.width=$('cmp').clientWidth+'px'}
@@ -126,4 +130,5 @@ N.forEach((n,k)=>{const b=document.createElement('button');b.className='ui-tab';
 [...$('modes').children].forEach(b=>b.onclick=()=>{mode=b.dataset.m;render()});
 window.addEventListener('resize',()=>mode==='360'?buildPano():cmp());
 const s=(aicw.getState&&aicw.getState())||{};o=s.o??2;mode=s.mode||'360';render();
+setAuto(!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 </script></body></html>
